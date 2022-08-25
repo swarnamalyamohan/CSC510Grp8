@@ -25,6 +25,6 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+          pytest test/test_greeter.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
