@@ -25,7 +25,7 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest test/test_greeter.py --doctest-modules --junitxml=test-results.xml --cov-report=term-missing:skip-covered --cov=greeter | tee pytest-coverage.txt
+          pytest test/test_greeter.py --junitxml=test-results.xml --cov-report=term-missing:skip-covered --cov=greeter | tee pytest-coverage.txt
 
       - name: Pytest coverage comment
         id: coverageComment
