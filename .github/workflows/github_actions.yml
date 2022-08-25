@@ -1,17 +1,13 @@
 name: GitHub-Actions-Workflow
 
-on:
-  pull_request:
-    branches: [master]
-  push:
-    branches: [master]
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["2.7", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
 
     steps:
       - uses: actions/checkout@v3
@@ -19,11 +15,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-
-      - name: Display Python version
-        run: |
-          python_version=$(cat .python-version)
-          echo "python_version=${python_version}" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
@@ -34,6 +25,7 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest tests.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+          pytest test/test_greeter.py --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - run: echo "All done 😊"
