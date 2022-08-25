@@ -25,13 +25,30 @@ jobs:
         run: |
           pip install pytest
           pip install pytest-cov
-          pytest test/test_greeter.py --doctest-modules --junitxml=junit/test-results.xml --cov=greeter --cov-report=xml --cov-report=html
+          pytest test/test_greeter.py --doctest-modules --junitxml=test-results.xml --cov-report=term-missing:skip-covered --cov=greeter | tee pytest-coverage.txt
 
       - name: Pytest coverage comment
-        uses: MishaKav/pytest-coverage-comment@main
+        id: coverageComment
+        uses: amisha-w/CSC510Grp8@main
         with:
           pytest-coverage-path: ./pytest-coverage.txt
-          junitxml-path: ./pytest.xml
+          junitxml-path: ./test-results.xml
+
+      - name: Check the output coverage
+        run: |
+          echo "Coverage Percantage - ${{ steps.coverageComment.outputs.coverage }}"
+          echo "Coverage Color - ${{ steps.coverageComment.outputs.color }}"
+          echo "Coverage Html - ${{ steps.coverageComment.outputs.coverageHtml }}"
+          echo "Summary Report - ${{ steps.coverageComment.outputs.summaryReport }}"
+
+          echo "Coverage Warnings - ${{ steps.coverageComment.outputs.warnings }}"
+
+          echo "Coverage Errors - ${{ steps.coverageComment.outputs.errors }}"
+          echo "Coverage Failures - ${{ steps.coverageComment.outputs.failures }}"
+          echo "Coverage Skipped - ${{ steps.coverageComment.outputs.skipped }}"
+          echo "Coverage Tests - ${{ steps.coverageComment.outputs.tests }}"
+          echo "Coverage Time - ${{ steps.coverageComment.outputs.time }}"
+          echo "Not Success Test Info - ${{ steps.coverageComment.outputs.notSuccessTestInfo }}"
           
       - run: echo "🍏 This job's status is ${{ job.status }}."
       - run: echo "All done 😊"
